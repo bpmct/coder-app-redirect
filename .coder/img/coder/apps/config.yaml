@@ -1,3 +1,51 @@
 # Include custom applications in your Coder workspace
 # see https://coder.com/docs/coder/latest/workspaces/applications
 apps:
+- name: Wikipedia
+  scheme: http
+  host: "localhost"
+  port: 7031
+  # Working directory
+  working-directory: /home/coder
+  # File path to icon used in application launcher
+  icon-path: /coder/apps/wikipedia-logo.svg
+  # This script will redirect the user to the specified URL
+  command: /usr/bin/python3
+  # Array of arguments for command
+  args:
+    [
+      "/coder/apps/redirect.py",
+      "--listen-port=7031",
+      "--redirect-to",
+      "https://en.wikipedia.org/wiki/Main_Page",
+    ]
+  health-check:
+    # check redirect server
+    http:
+      scheme: "http"
+      port: 7031
+      path: "/health"
+- name: codersdk
+  scheme: http
+  host: "localhost"
+  port: 7032
+  # Working directory
+  working-directory: /home/coder
+  # File path to icon used in application launcher
+  icon-path: /coder/apps/golang-logo.svg
+  # This script will redirect the user to the specified URL
+  command: /usr/bin/python3
+  # Array of arguments for command
+  args:
+    [
+      "/coder/apps/redirect.py",
+      "--listen-port=7032",
+      "--redirect-to",
+      "https://pkg.go.dev/github.com/coder/coder@v0.8.6/codersdk",
+    ]
+  health-check:
+    # check redirect server
+    http:
+      scheme: "http"
+      port: 7032
+      path: "/health"
